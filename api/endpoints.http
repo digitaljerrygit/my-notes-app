@@ -1,0 +1,11 @@
+### Get All Notes
+GET http://localhost:3001/api/notes
+
+### Get A Note With ID of...
+GET http://localhost:3001/api/notes/2
+
+### Can't Find A Note
+GET http://localhost:3001/api/notes/999
+
+### Delete 
+DELETE http://localhost:3001/api/notes/1
