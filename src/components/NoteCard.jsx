@@ -1,16 +1,27 @@
+import { useEffect, useState } from "react";
+//user interface
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Stack, Avatar, Snackbar, Alert } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+//helper function
+import generateColor from "../functions/generateColor";
 
-import { useState } from "react";
+export default function NoteCard({ noteData, onClick, cardKey }) {
+  const [avatarColor, setAvatarColor] = useState(null);
+  useEffect(() => {
+    setAvatarColor(
+      {
+        bgcolor: generateColor()
+      }
+    );
+  }, []);
 
-export default function NoteCard({noteData, onClick}) {
- 
   return (
-    <Card key={noteData.id}>
+    <Card key={cardKey}>
       <CardContent>
         <Typography gutterBottom>{noteData.noteContent}</Typography>
       </CardContent>
@@ -23,12 +34,21 @@ export default function NoteCard({noteData, onClick}) {
           spacing={2}
         >
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar>{noteData.author[0].toLocaleUpperCase()}</Avatar>
+            <Avatar
+              sx={avatarColor}
+            >
+              {noteData.author[0].toLocaleUpperCase()}
+            </Avatar>
             <Typography variant="caption" color="text.secondary">
-              Posted On: November 14, 2023 by {noteData.author}
+              Posted On: {noteData.date} by {noteData.author}
             </Typography>
           </Stack>
-          <Button size="small" color="error" onClick={onClick} value={noteData.id}>
+          <Button
+            size="small"
+            color="error"
+            onClick={onClick}
+            value={cardKey}
+          >
             Delete
           </Button>
         </Stack>

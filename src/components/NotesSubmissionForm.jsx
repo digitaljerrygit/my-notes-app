@@ -1,3 +1,5 @@
+import { useState } from "react";
+// User Interface
 import Modal from "@mui/material/Modal";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
@@ -6,8 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { useState } from "react";
-import { FormControl } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
 
 const style = {
   position: "absolute",
@@ -20,10 +21,18 @@ const style = {
   p: 2,
 };
 
-export default function NotesSubmissionForm({name, noteText, onNameChange, onNoteChange, onSubmission}) {
+export default function NotesSubmissionForm({
+  name,
+  noteText,
+  onNameChange,
+  onNoteChange,
+  onSubmission,
+}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
+  };
 
   return (
     <div>
@@ -36,26 +45,42 @@ export default function NotesSubmissionForm({name, noteText, onNameChange, onNot
       >
         <Card sx={style}>
           <CardContent>
-              <FormControl fullWidth>
-            <Stack spacing={2}>
-              <TextField 
-                id="username"
-                label="Enter Your Name"
-                value={name}
-                onChange={onNameChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Enter A Note"
-                variant="outlined"
-                multiline
-                value={noteText}
-                onChange={onNoteChange}
-                rows={8}
-              />
-              <Button variant="contained" type="submit" onClick={onSubmission}>Add New Note</Button>
-            </Stack>
-              </FormControl>
+            <FormControl fullWidth>
+              <Stack spacing={2}>
+                <TextField
+                  id="username"
+                  label="Enter Your Name"
+                  value={name}
+                  onChange={onNameChange}
+                  required="true"
+                />
+                <TextField
+                  id="outlined-basic"
+                  label="Enter A Note"
+                  variant="outlined"
+                  multiline
+                  value={noteText}
+                  onChange={onNoteChange}
+                  required="true"
+                  rows={8}
+                />
+                <Button
+                  variant="contained"
+                  type="submit"
+                  onClick={() => {
+                    onSubmission()
+                    handleClose()
+                  }}
+                  disabled={
+                    name.length > 0 && noteText.length > 0 
+                      ? false 
+                      : true
+                  }
+                >
+                  Add New Note
+                </Button>
+              </Stack>
+            </FormControl>
           </CardContent>
         </Card>
       </Modal>
@@ -69,10 +94,10 @@ function FloatingButton({ onClick }) {
       color="primary"
       aria-label="add"
       onClick={onClick}
-      sx={{ 
+      sx={{
         position: "absolute",
-        bottom: '2%',
-        right: '2%'
+        bottom: "2%",
+        right: "2%",
       }}
     >
       <AddIcon />
